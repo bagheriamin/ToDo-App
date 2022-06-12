@@ -8,6 +8,7 @@
 import Foundation
 
 struct Task {
-    let title, description: String?
-    let deadline: Date?
+    var title, description: String?
+    var deadline: Date?
+    var isCompleted: Bool?
 }

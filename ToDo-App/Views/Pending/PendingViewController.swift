@@ -8,28 +8,36 @@
 import UIKit
 
 class PendingViewController: UIViewController {
-
-    let pendingTasks: [Task] = [.init(title: "Make Millions", description: "Launch a business", deadline: Date(timeIntervalSinceNow: 86400)), .init(title: "Lift Weights", description: "Push Day", deadline: Date(timeIntervalSinceNow: 86400)), .init(title: "Order Pizza", description: "2 large Pepperoni's", deadline: Date(timeIntervalSinceNow: 86400))]
-//
-//    @IBOutlet var openingMessage: UIView!
+    
+    var pendingTasks: [Task] = [.init(title: "Make Millions", description: "Launch a business", deadline: Date(timeIntervalSinceNow: 86400), isCompleted: true), .init(title: "Lift Weights", description: "Push Day", deadline: Date(timeIntervalSinceNow: 86400), isCompleted: false), .init(title: "Order Pizza", description: "2 large Pepperoni's", deadline: Date(timeIntervalSinceNow: 86400), isCompleted: false)]
+    //
+    
+    @IBOutlet var noTasksMessageView: UIView!
     @IBOutlet var tableView: UITableView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // TODO: - ADD THE OPENING MESSAGE
-        // Do any additional setup after loading the view.
-//        if pendingTasks.isEmpty {
-//            print("Pending is empty")
-//            view.isHidden = false
-//        } else {
-//            print("Pending is NOT empty")
-//            view.isHidden = true
-//        }
+        if pendingTasks.isEmpty {
+            print("Pending is empty")
+            noTasksMessageView.isHidden = false
+        } else {
+            print("Pending is NOT empty")
+            noTasksMessageView.isHidden = true
+        }
     }
-
     
-
+    // have to impliment the unwind segue in THE BOSS VC! Not in the second one.
+    @IBAction func unwindToPendingTasks(sender: UIStoryboardSegue) {
+        if sender.source is AddEditViewController {
+            if let senderVC = sender.source as? AddEditViewController {
+                pendingTasks.append(senderVC.addedTask)
+                tableView.reloadData()
+            }
+            
+        }
+    }
+    
 }
 
 extension PendingViewController: UITableViewDelegate, UITableViewDataSource {
@@ -42,6 +50,15 @@ extension PendingViewController: UITableViewDelegate, UITableViewDataSource {
         cell.taskTitleLabel.text = pendingTasks[indexPath.row].title
         cell.taskDescLabel.text = pendingTasks[indexPath.row].description
         let format = pendingTasks[indexPath.row].deadline?.getFormattedDate(format: "MMM d, h:mm a")
+        
+        if pendingTasks[indexPath.row].isCompleted == true {
+            cell.completeTaskButton.alpha = 1
+            cell.completedTaskImageBackground.isHidden = false
+        } else if pendingTasks[indexPath.row].isCompleted == false {
+            cell.completeTaskButton.alpha = 0
+            cell.completedTaskImageBackground.isHidden = true
+        }
+        
         cell.dueDateLabel.text = format
         
         return cell
