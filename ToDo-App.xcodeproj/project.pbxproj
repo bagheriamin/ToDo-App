@@ -7,23 +7,35 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		880354E128556E0D00EA2404 /* UIViewExtension Rounding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880354E028556E0D00EA2404 /* UIViewExtension Rounding.swift */; };
+		880354E428556E5C00EA2404 /* CustomTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880354E328556E5C00EA2404 /* CustomTableViewCell.swift */; };
+		880354E628557D6600EA2404 /* Date Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 880354E528557D6600EA2404 /* Date Extension.swift */; };
 		88CE48E828552B1400BB30C0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CE48E728552B1400BB30C0 /* AppDelegate.swift */; };
 		88CE48EA28552B1400BB30C0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CE48E928552B1400BB30C0 /* SceneDelegate.swift */; };
-		88CE48EC28552B1400BB30C0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CE48EB28552B1400BB30C0 /* ViewController.swift */; };
+		88CE48EC28552B1400BB30C0 /* PendingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CE48EB28552B1400BB30C0 /* PendingViewController.swift */; };
 		88CE48EF28552B1400BB30C0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 88CE48ED28552B1400BB30C0 /* Main.storyboard */; };
 		88CE48F128552B1500BB30C0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 88CE48F028552B1500BB30C0 /* Assets.xcassets */; };
 		88CE48F428552B1500BB30C0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 88CE48F228552B1500BB30C0 /* LaunchScreen.storyboard */; };
+		88CE48FC2855646C00BB30C0 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CE48FB2855646C00BB30C0 /* Task.swift */; };
+		88CE49012855654C00BB30C0 /* CompletedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CE49002855654C00BB30C0 /* CompletedViewController.swift */; };
+		88CE49092855659500BB30C0 /* OverdueViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CE49082855659500BB30C0 /* OverdueViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		880354E028556E0D00EA2404 /* UIViewExtension Rounding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewExtension Rounding.swift"; sourceTree = "<group>"; };
+		880354E328556E5C00EA2404 /* CustomTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableViewCell.swift; sourceTree = "<group>"; };
+		880354E528557D6600EA2404 /* Date Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date Extension.swift"; sourceTree = "<group>"; };
 		88CE48E428552B1400BB30C0 /* ToDo-App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ToDo-App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		88CE48E728552B1400BB30C0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		88CE48E928552B1400BB30C0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		88CE48EB28552B1400BB30C0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		88CE48EB28552B1400BB30C0 /* PendingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingViewController.swift; sourceTree = "<group>"; };
 		88CE48EE28552B1400BB30C0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		88CE48F028552B1500BB30C0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		88CE48F328552B1500BB30C0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		88CE48F528552B1500BB30C0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		88CE48FB2855646C00BB30C0 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
+		88CE49002855654C00BB30C0 /* CompletedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedViewController.swift; sourceTree = "<group>"; };
+		88CE49082855659500BB30C0 /* OverdueViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverdueViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,6 +49,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		880354DF28556DF500EA2404 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				880354E028556E0D00EA2404 /* UIViewExtension Rounding.swift */,
+				880354E528557D6600EA2404 /* Date Extension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		880354E228556E4100EA2404 /* CustomViews */ = {
+			isa = PBXGroup;
+			children = (
+				880354E328556E5C00EA2404 /* CustomTableViewCell.swift */,
+			);
+			path = CustomViews;
+			sourceTree = "<group>";
+		};
 		88CE48DB28552B1400BB30C0 = {
 			isa = PBXGroup;
 			children = (
@@ -56,15 +85,60 @@
 		88CE48E628552B1400BB30C0 /* ToDo-App */ = {
 			isa = PBXGroup;
 			children = (
+				880354DF28556DF500EA2404 /* Extensions */,
 				88CE48E728552B1400BB30C0 /* AppDelegate.swift */,
 				88CE48E928552B1400BB30C0 /* SceneDelegate.swift */,
-				88CE48EB28552B1400BB30C0 /* ViewController.swift */,
 				88CE48ED28552B1400BB30C0 /* Main.storyboard */,
-				88CE48F028552B1500BB30C0 /* Assets.xcassets */,
 				88CE48F228552B1500BB30C0 /* LaunchScreen.storyboard */,
+				88CE48F028552B1500BB30C0 /* Assets.xcassets */,
 				88CE48F528552B1500BB30C0 /* Info.plist */,
+				880354E228556E4100EA2404 /* CustomViews */,
+				88CE48FE285564EF00BB30C0 /* Views */,
+				88CE48FD2855647300BB30C0 /* Models */,
 			);
 			path = "ToDo-App";
+			sourceTree = "<group>";
+		};
+		88CE48FD2855647300BB30C0 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				88CE48FB2855646C00BB30C0 /* Task.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		88CE48FE285564EF00BB30C0 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				88CE49042855656000BB30C0 /* Overdue */,
+				88CE49032855655B00BB30C0 /* Completed */,
+				88CE49022855655500BB30C0 /* Pending */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		88CE49022855655500BB30C0 /* Pending */ = {
+			isa = PBXGroup;
+			children = (
+				88CE48EB28552B1400BB30C0 /* PendingViewController.swift */,
+			);
+			path = Pending;
+			sourceTree = "<group>";
+		};
+		88CE49032855655B00BB30C0 /* Completed */ = {
+			isa = PBXGroup;
+			children = (
+				88CE49002855654C00BB30C0 /* CompletedViewController.swift */,
+			);
+			path = Completed;
+			sourceTree = "<group>";
+		};
+		88CE49042855656000BB30C0 /* Overdue */ = {
+			isa = PBXGroup;
+			children = (
+				88CE49082855659500BB30C0 /* OverdueViewController.swift */,
+			);
+			path = Overdue;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -138,9 +212,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				88CE48EC28552B1400BB30C0 /* ViewController.swift in Sources */,
+				88CE48FC2855646C00BB30C0 /* Task.swift in Sources */,
+				88CE48EC28552B1400BB30C0 /* PendingViewController.swift in Sources */,
+				880354E428556E5C00EA2404 /* CustomTableViewCell.swift in Sources */,
 				88CE48E828552B1400BB30C0 /* AppDelegate.swift in Sources */,
+				880354E128556E0D00EA2404 /* UIViewExtension Rounding.swift in Sources */,
+				88CE49012855654C00BB30C0 /* CompletedViewController.swift in Sources */,
+				880354E628557D6600EA2404 /* Date Extension.swift in Sources */,
 				88CE48EA28552B1400BB30C0 /* SceneDelegate.swift in Sources */,
+				88CE49092855659500BB30C0 /* OverdueViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
