@@ -19,7 +19,6 @@
 		88CE48F128552B1500BB30C0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 88CE48F028552B1500BB30C0 /* Assets.xcassets */; };
 		88CE48F428552B1500BB30C0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 88CE48F228552B1500BB30C0 /* LaunchScreen.storyboard */; };
 		88CE48FC2855646C00BB30C0 /* Task.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CE48FB2855646C00BB30C0 /* Task.swift */; };
-		88CE49012855654C00BB30C0 /* CompletedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CE49002855654C00BB30C0 /* CompletedViewController.swift */; };
 		88CE49092855659500BB30C0 /* OverdueViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 88CE49082855659500BB30C0 /* OverdueViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -38,7 +37,6 @@
 		88CE48F328552B1500BB30C0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		88CE48F528552B1500BB30C0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		88CE48FB2855646C00BB30C0 /* Task.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Task.swift; sourceTree = "<group>"; };
-		88CE49002855654C00BB30C0 /* CompletedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletedViewController.swift; sourceTree = "<group>"; };
 		88CE49082855659500BB30C0 /* OverdueViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverdueViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -125,7 +123,6 @@
 			children = (
 				88CC7DEE28562DA10024B897 /* Add+Edit Task */,
 				88CE49042855656000BB30C0 /* Overdue */,
-				88CE49032855655B00BB30C0 /* Completed */,
 				88CE49022855655500BB30C0 /* Pending */,
 			);
 			path = Views;
@@ -137,14 +134,6 @@
 				88CE48EB28552B1400BB30C0 /* PendingViewController.swift */,
 			);
 			path = Pending;
-			sourceTree = "<group>";
-		};
-		88CE49032855655B00BB30C0 /* Completed */ = {
-			isa = PBXGroup;
-			children = (
-				88CE49002855654C00BB30C0 /* CompletedViewController.swift */,
-			);
-			path = Completed;
 			sourceTree = "<group>";
 		};
 		88CE49042855656000BB30C0 /* Overdue */ = {
@@ -231,7 +220,6 @@
 				880354E428556E5C00EA2404 /* CustomTableViewCell.swift in Sources */,
 				88CE48E828552B1400BB30C0 /* AppDelegate.swift in Sources */,
 				880354E128556E0D00EA2404 /* UIViewExtension Rounding.swift in Sources */,
-				88CE49012855654C00BB30C0 /* CompletedViewController.swift in Sources */,
 				88B81DEA28564E8200AAF4C5 /* AddEditViewController.swift in Sources */,
 				880354E628557D6600EA2404 /* Date Extension.swift in Sources */,
 				88B81DEC28566FD100AAF4C5 /* UIViewController Extensions.swift in Sources */,

@@ -27,10 +27,11 @@ class AddEditViewController: UIViewController, UITextViewDelegate {
     func setTask() {
         
         addedTask.title = taskNameTextField.text
-        addedTask.description = descriptionTextView.text
+        addedTask.desc = descriptionTextView.text
         addedTask.isCompleted = isCompleted
         addedTask.deadline = dueDatePicker.date
         enableOrDisableSaveButton()
+        
     }
     
     
@@ -53,7 +54,7 @@ class AddEditViewController: UIViewController, UITextViewDelegate {
         if addedTask.title != nil, addedTask.deadline != nil {
             taskNameLabel.text = addedTask.title
             taskNameTextField.text = addedTask.title
-            descriptionTextView.text = addedTask.description
+            descriptionTextView.text = addedTask.desc
             dueDatePicker.date = addedTask.deadline!
             isCompleted = addedTask.isCompleted!
             enableOrDisableSaveButton()
@@ -116,7 +117,7 @@ class AddEditViewController: UIViewController, UITextViewDelegate {
     
     func textViewDidChange(_ textView: UITextView) {
        
-        addedTask.description = descriptionTextView.text
+        addedTask.desc = descriptionTextView.text
         print(addedTask)
         
     }

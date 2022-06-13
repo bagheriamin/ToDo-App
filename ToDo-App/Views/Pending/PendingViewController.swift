@@ -13,7 +13,12 @@ class PendingViewController: UIViewController {
     
     
     var selectedTask = Task()
-    var pendingTasks: [Task] = []
+    let itemsKey: String = "items_list"
+    var pendingTasks: [Task] = [] {
+        didSet {
+            saveItems()
+        }
+    }
     //
     
     
@@ -21,6 +26,7 @@ class PendingViewController: UIViewController {
     @IBOutlet var tableView: UITableView!
     
     override func viewWillAppear(_ animated: Bool) {
+        
         print("The taks are: ", pendingTasks)
         theIndexPathThatWasPressed = nil
         print("view will appear")
@@ -34,7 +40,9 @@ class PendingViewController: UIViewController {
         }
     }
     
+    
     override func viewDidLoad() {
+        getItems()
         super.viewDidLoad()
         print("view Did load")
         wasCellPressed = false
@@ -45,6 +53,10 @@ class PendingViewController: UIViewController {
             print("Pending is NOT empty")
             noTasksMessageView.isHidden = true
         }
+        
+        tableView.dragInteractionEnabled = true // Enable intra-app drags
+        tableView.dragDelegate = self
+        tableView.dropDelegate = self
     }
     
     @IBOutlet var addTaskButton: UIBarButtonItem!
@@ -65,6 +77,8 @@ class PendingViewController: UIViewController {
     
     // have to impliment the unwind segue in THE BOSS VC! Not in the second one.
     @IBAction func unwindToPendingTasks(sender: UIStoryboardSegue) {
+        
+        
         print("Going back to pending tasks")
         wasCellPressed = false
         if sender.source is AddEditViewController {
@@ -74,6 +88,7 @@ class PendingViewController: UIViewController {
                     pendingTasks.remove(at: theIndexPathThatWasPressed!)
                     pendingTasks.insert(senderVC.addedTask, at: theIndexPathThatWasPressed!)
                     tableView.reloadData()
+                   
                 } else {
                     pendingTasks.append(senderVC.addedTask)
                     tableView.reloadData()
@@ -90,9 +105,75 @@ class PendingViewController: UIViewController {
         }
     }
     var theIndexPathThatWasPressed: Int? = nil
+    
+    func saveItems() {
+        if let encodedData = try? JSONEncoder().encode(pendingTasks) {
+            UserDefaults.standard.set(encodedData, forKey: itemsKey)
+            print(encodedData)
+        }
+        
+    }
+    
+    func getItems() {
+        guard
+            let data = UserDefaults.standard.data(forKey: itemsKey), let savedItems = try? JSONDecoder().decode([Task].self, from: data)
+        else { return }
+        
+        self.pendingTasks = savedItems
+    }
 }
 
-extension PendingViewController: UITableViewDelegate, UITableViewDataSource, completeTaskDelegate {
+extension PendingViewController: UITableViewDelegate, UITableViewDataSource, completeTaskDelegate, UITableViewDragDelegate, UITableViewDropDelegate {
+    
+ 
+    // >>----->> HOW TO GET DRAG AND DROP <<-----<< || >-> Make sure to conform model class <-<
+    // must include items for beginning
+    func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
+        let task = pendingTasks[indexPath.row]
+        // create an item provideer of type NSItemProvider
+        let itemProvider = NSItemProvider(object: task)
+        // use that as my drag item
+        let dragItem = UIDragItem(itemProvider: itemProvider)
+        
+        return [dragItem]
+    }
+    
+    // must include dropSessionDidUpdate
+    func tableView(_ tableView: UITableView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UITableViewDropProposal {
+      return UITableViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
+    }
+
+    
+    // must include Perform Drop With
+    func tableView(_ tableView: UITableView, performDropWith coordinator: UITableViewDropCoordinator) {
+        let insertionIndex: IndexPath
+        if let indexPath = coordinator.destinationIndexPath {
+            insertionIndex = indexPath
+        } else {
+            let section = tableView.numberOfSections - 1
+            let row = tableView.numberOfRows(inSection: section)
+            insertionIndex = IndexPath(row: row, section: section)
+        }
+        
+        for item in coordinator.items {
+            guard let sourceIndexPathRow = item.sourceIndexPath?.row else { continue }
+            item.dragItem.itemProvider.loadObject(ofClass: Task.self) { (object, error) in
+                DispatchQueue.main.async {
+                    if let task = object as? Task {
+                        self.pendingTasks.remove(at: sourceIndexPathRow)
+                        self.pendingTasks.insert(task, at: insertionIndex.row)
+                        tableView.reloadData()
+                    } else {
+                        return
+                    }
+                }
+            }
+        }
+        
+        
+        
+    }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return pendingTasks.count
     }
@@ -125,13 +206,15 @@ extension PendingViewController: UITableViewDelegate, UITableViewDataSource, com
     func biggerCompleteTaskButtonPressed(at index: IndexPath) {
         
          // index is equal to the indexPath in CustomTableViewCell.
+        
             pendingTasks[index.row].isCompleted?.toggle()
+        saveItems()
             self.tableView.reloadData()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         
-
+        
         if (segue.identifier == "addEditTaskSegue") {
             if wasCellPressed == true {
                
@@ -169,6 +252,7 @@ extension PendingViewController: UITableViewDelegate, UITableViewDataSource, com
         let itemToMove = pendingTasks[sourceIndexPath.row]
         pendingTasks.remove(at: sourceIndexPath.row)
         pendingTasks.insert(itemToMove, at: destinationIndexPath.row)
+        
     }
     
 }
