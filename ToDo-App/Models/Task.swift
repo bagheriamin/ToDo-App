@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Task {
+struct Task: Equatable {
     var title, description: String?
     var deadline: Date?
     var isCompleted: Bool?

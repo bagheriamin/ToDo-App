@@ -11,12 +11,14 @@ class AddEditViewController: UIViewController, UITextViewDelegate {
 
     let defaults = UserDefaults.standard
     
+    @IBOutlet var saveButton: UIBarButtonItem!
     @IBOutlet var taskNameLabel: UILabel!
     @IBOutlet var taskNameTextField: UITextField!
     @IBOutlet var descriptionTextView: UITextView!
     @IBOutlet var dueDatePicker: UIDatePicker!
     @IBOutlet var clickMeImageView: UIImageView!
     @IBOutlet var isCompletedButton: UIButton!
+    
     
     
     var isCompleted: Bool = false
@@ -28,6 +30,7 @@ class AddEditViewController: UIViewController, UITextViewDelegate {
         addedTask.description = descriptionTextView.text
         addedTask.isCompleted = isCompleted
         addedTask.deadline = dueDatePicker.date
+        enableOrDisableSaveButton()
     }
     
     
@@ -35,6 +38,7 @@ class AddEditViewController: UIViewController, UITextViewDelegate {
     @IBAction func returnPressed(_ sender: UITextField) {
         taskNameTextField.resignFirstResponder()
         addedTask.title = taskNameTextField.text
+        enableOrDisableSaveButton()
 
     }
     
@@ -42,9 +46,19 @@ class AddEditViewController: UIViewController, UITextViewDelegate {
     @IBAction func editingChangedTextField(_ sender: Any) {
         taskNameLabel.text = taskNameTextField.text
         addedTask.title = taskNameTextField.text
+        enableOrDisableSaveButton()
     }
     
-    
+    func setUpViews() {
+        if addedTask.title != nil, addedTask.deadline != nil {
+            taskNameLabel.text = addedTask.title
+            taskNameTextField.text = addedTask.title
+            descriptionTextView.text = addedTask.description
+            dueDatePicker.date = addedTask.deadline!
+            isCompleted = addedTask.isCompleted!
+            enableOrDisableSaveButton()
+        }
+    }
     
     
     @IBAction func isCompletedButtonPressed(_ sender: UIButton) {
@@ -57,26 +71,45 @@ class AddEditViewController: UIViewController, UITextViewDelegate {
             isCompletedButton.setTitleColor(.green, for: .normal)
             addedTask.isCompleted = isCompleted
             print(addedTask.isCompleted)
+            
 
         } else {
             isCompletedButton.setTitleColor(.red, for: .normal)
             addedTask.isCompleted = isCompleted
             print(addedTask.isCompleted)
+            
         }
     }
     
     override func viewDidLoad() {
+        dueDatePicker.minimumDate = .now
+        super.viewDidLoad()
+        saveButton.isEnabled = false
+        setUpViews()
         descriptionTextView.widthAnchor.constraint(equalToConstant: 388).isActive = true
         self.hideKeyboardWhenTappedAround()
 
         
-        super.viewDidLoad()
+        
         if defaults.bool(forKey: "buttonPressed") == true {
             clickMeImageView.isHidden = true
         }
         descriptionTextView.delegate = self
     
         // Do any additional setup after loading the view.
+        //setting up complete color on launch
+        if isCompleted {
+            isCompletedButton.setTitleColor(.green, for: .normal)
+            addedTask.isCompleted = isCompleted
+            print(addedTask.isCompleted)
+            
+
+        } else {
+            isCompletedButton.setTitleColor(.red, for: .normal)
+            addedTask.isCompleted = isCompleted
+            print(addedTask.isCompleted)
+            
+        }
     }
     
     
@@ -85,15 +118,20 @@ class AddEditViewController: UIViewController, UITextViewDelegate {
        
         addedTask.description = descriptionTextView.text
         print(addedTask)
+        
     }
     
-    
+    func enableOrDisableSaveButton() {
+        if addedTask.title != nil && addedTask.deadline != nil {
+            saveButton.isEnabled = true
+        } else {
+            saveButton.isEnabled = false
+        }
+    }
     
     @IBAction func saveButtonPressed(_ sender: Any) {
-        if self.title == "Add Task" {
-            print("Added Task!")
-            
-        }
+        
+        
     }
     
     
@@ -102,6 +140,7 @@ class AddEditViewController: UIViewController, UITextViewDelegate {
         print("DATE CHANGED")
         addedTask.deadline = dueDatePicker.date
         print(addedTask.deadline)
+        enableOrDisableSaveButton()
     }
     
     
