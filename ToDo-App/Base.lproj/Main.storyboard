@@ -142,10 +142,10 @@
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="pendingTaskCell" id="CxD-7b-kgo" customClass="CustomTableViewCell" customModule="ToDo_App" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="44.666666030883789" width="428" height="46"/>
+                                        <rect key="frame" x="0.0" y="44.666666030883789" width="428" height="45.666667938232422"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="CxD-7b-kgo" id="7Zg-9q-ajQ">
-                                            <rect key="frame" x="0.0" y="0.0" width="399.33333333333331" height="46"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="399.33333333333331" height="45.666667938232422"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Webp.net-resizeimage" translatesAutoresizingMaskIntoConstraints="NO" id="Og6-il-3Gv">
@@ -163,7 +163,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="968-aC-gob">
-                                                    <rect key="frame" x="20" y="0.0" width="46" height="46"/>
+                                                    <rect key="frame" x="19.999999999999996" y="0.0" width="45.666666666666657" height="45.666666666666664"/>
                                                     <constraints>
                                                         <constraint firstAttribute="width" secondItem="968-aC-gob" secondAttribute="height" multiplier="1:1" id="rsQ-C7-yby"/>
                                                     </constraints>
@@ -177,7 +177,7 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </button>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="1000" verticalHuggingPriority="1000" horizontalCompressionResistancePriority="1000" verticalCompressionResistancePriority="1000" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KEw-wx-0hd">
-                                                    <rect key="frame" x="71" y="12" width="34.666666666666657" height="22"/>
+                                                    <rect key="frame" x="70.666666666666671" y="12" width="34.666666666666671" height="22"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -189,7 +189,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="g2t-1v-UBg">
-                                                    <rect key="frame" x="0.0" y="0.0" width="71" height="46"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="70.666666666666671" height="45.666666666666664"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                     <state key="normal" title="Button"/>
@@ -268,6 +268,11 @@
                     </view>
                     <navigationItem key="navigationItem" title="Pending" id="a2B-gC-NyR">
                         <barButtonItem key="backBarButtonItem" title="Cancel" id="9Lm-AY-Wly"/>
+                        <barButtonItem key="leftBarButtonItem" title="Edit" style="plain" id="bYv-JB-1my">
+                            <connections>
+                                <action selector="editButtonPressed:" destination="BYZ-38-t0r" id="wMs-AU-HrL"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Add Task" id="QGa-mv-QT2">
                             <connections>
                                 <action selector="addTaskButtonPressed:" destination="BYZ-38-t0r" id="C8c-JU-Yel"/>
@@ -276,6 +281,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="addTaskButton" destination="QGa-mv-QT2" id="WNh-qh-YPt"/>
                         <outlet property="noTasksMessageView" destination="vV4-LA-e4v" id="INS-kJ-hPg"/>
                         <outlet property="tableView" destination="cR4-jF-SFM" id="NtU-IG-KTm"/>
                     </connections>

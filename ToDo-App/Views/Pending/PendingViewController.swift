@@ -47,9 +47,22 @@ class PendingViewController: UIViewController {
         }
     }
     
-    @IBAction func addTaskButtonPressed(_ sender: Any) {
-        
+    @IBOutlet var addTaskButton: UIBarButtonItem!
+    @IBAction func addTaskButtonPressed(_ sender: Any) { }
+    
+    
+    @IBAction func editButtonPressed(_ sender: UIBarButtonItem) {
+        if tableView.isEditing {
+            tableView.setEditing(false, animated: true)
+            sender.title = "Edit"
+            addTaskButton.isEnabled = true
+        } else {
+            tableView.setEditing(true, animated: true)
+            sender.title = "Done"
+            addTaskButton.isEnabled = false
+        }
     }
+    
     // have to impliment the unwind segue in THE BOSS VC! Not in the second one.
     @IBAction func unwindToPendingTasks(sender: UIStoryboardSegue) {
         print("Going back to pending tasks")
@@ -142,6 +155,20 @@ extension PendingViewController: UITableViewDelegate, UITableViewDataSource, com
         selectedTask = pendingTasks[indexPath.row]
         tableView.deselectRow(at: indexPath, animated: true)
         performSegue(withIdentifier: "addEditTaskSegue", sender: self)
+    }
+    
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+        if editingStyle == .delete {
+            pendingTasks.remove(at: indexPath.row)
+            tableView.deleteRows(at: [indexPath], with: .automatic)
+            
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
+        let itemToMove = pendingTasks[sourceIndexPath.row]
+        pendingTasks.remove(at: sourceIndexPath.row)
+        pendingTasks.insert(itemToMove, at: destinationIndexPath.row)
     }
     
 }
