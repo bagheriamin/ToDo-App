@@ -9,10 +9,14 @@ import Foundation
 
 // allows me to format date
 extension Date {
-   func getFormattedDate(format: String) -> String {
+    func getFormattedDate(format: String) -> String {
         let dateformat = DateFormatter()
         dateformat.dateFormat = format
         return dateformat.string(from: self)
+    }
+    
+    func withAddedMinutes(minutes: Double) -> Date {
+        addingTimeInterval(minutes * -60)
     }
 }
 

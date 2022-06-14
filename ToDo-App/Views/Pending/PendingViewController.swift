@@ -6,21 +6,62 @@
 //
 
 import UIKit
+import UserNotifications
 
 // here, we CONFORM TO THE PROTOCOL, and set this VC to be THE DELEGATE
 class PendingViewController: UIViewController {
     
-    
+    func fetchOverdueTasks() {
+        for task in pendingTasks {
+            if task.deadline! > Date.now {
+                print("\(task) is OVERDUE")
+            } else {
+                print("\(task) is still available to complete")
+
+            }
+        }
+    }
     
     var selectedTask = Task()
     let itemsKey: String = "items_list"
     var pendingTasks: [Task] = [] {
         didSet {
+            for task in pendingTasks {
+                
+                createAndTriggerNotification(time: 10, task: task)
+            }
             saveItems()
+            
         }
     }
     //
-    
+    func createAndTriggerNotification(time: Int, task: Task) {
+        if task.deadline! > Date.now {
+            print("Iterating through the array")
+            let notificationContent = UNMutableNotificationContent()
+            notificationContent.title = task.title!
+            notificationContent.body = "10 Minutes to do: " + (task.desc ?? "task")!
+            notificationContent.sound = .defaultRingtone
+            
+            
+            guard let earlyDate = (task.deadline?.withAddedMinutes(minutes: Double(time))) else { return }
+            
+            let dateComponents = Calendar.current.dateComponents(Set(arrayLiteral: Calendar.Component.year, Calendar.Component.month, Calendar.Component.day, Calendar.Component.hour, Calendar.Component.minute), from: earlyDate)
+            let trigger = UNCalendarNotificationTrigger(dateMatching: dateComponents, repeats: false)
+            let request = UNNotificationRequest(identifier: "tenMinutesBeforetaskEndsUN", content: notificationContent, trigger: trigger)
+            UNUserNotificationCenter.current().add(request) { error in
+                if let error = error {
+                    //handle error
+                } else {
+                    print("notification set up successfully for \(task)")
+                }
+            }
+            
+        }
+        
+        
+        
+    }
     
     @IBOutlet var noTasksMessageView: UIView!
     @IBOutlet var tableView: UITableView!
@@ -42,6 +83,10 @@ class PendingViewController: UIViewController {
     
     
     override func viewDidLoad() {
+        let center = UNUserNotificationCenter.current()
+        center.requestAuthorization(options:  [.alert, .sound]) { (granted, error) in
+        }
+
         getItems()
         super.viewDidLoad()
         print("view Did load")
@@ -57,6 +102,8 @@ class PendingViewController: UIViewController {
         tableView.dragInteractionEnabled = true // Enable intra-app drags
         tableView.dragDelegate = self
         tableView.dropDelegate = self
+        
+        
     }
     
     @IBOutlet var addTaskButton: UIBarButtonItem!
@@ -64,15 +111,19 @@ class PendingViewController: UIViewController {
     
     
     @IBAction func editButtonPressed(_ sender: UIBarButtonItem) {
-        if tableView.isEditing {
-            tableView.setEditing(false, animated: true)
-            sender.title = "Edit"
-            addTaskButton.isEnabled = true
-        } else {
-            tableView.setEditing(true, animated: true)
-            sender.title = "Done"
-            addTaskButton.isEnabled = false
+        if pendingTasks != [] {
+            if tableView.isEditing {
+                tableView.setEditing(false, animated: true)
+                sender.title = "Edit"
+                addTaskButton.isEnabled = true
+            } else {
+                tableView.setEditing(true, animated: true)
+                sender.title = "Done"
+                addTaskButton.isEnabled = false
+            }
         }
+        
+        
     }
     
     // have to impliment the unwind segue in THE BOSS VC! Not in the second one.
@@ -88,7 +139,7 @@ class PendingViewController: UIViewController {
                     pendingTasks.remove(at: theIndexPathThatWasPressed!)
                     pendingTasks.insert(senderVC.addedTask, at: theIndexPathThatWasPressed!)
                     tableView.reloadData()
-                   
+                    
                 } else {
                     pendingTasks.append(senderVC.addedTask)
                     tableView.reloadData()
@@ -125,7 +176,7 @@ class PendingViewController: UIViewController {
 
 extension PendingViewController: UITableViewDelegate, UITableViewDataSource, completeTaskDelegate, UITableViewDragDelegate, UITableViewDropDelegate {
     
- 
+    
     // >>----->> HOW TO GET DRAG AND DROP <<-----<< || >-> Make sure to conform model class <-<
     // must include items for beginning
     func tableView(_ tableView: UITableView, itemsForBeginning session: UIDragSession, at indexPath: IndexPath) -> [UIDragItem] {
@@ -140,9 +191,9 @@ extension PendingViewController: UITableViewDelegate, UITableViewDataSource, com
     
     // must include dropSessionDidUpdate
     func tableView(_ tableView: UITableView, dropSessionDidUpdate session: UIDropSession, withDestinationIndexPath destinationIndexPath: IndexPath?) -> UITableViewDropProposal {
-      return UITableViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
+        return UITableViewDropProposal(operation: .move, intent: .insertAtDestinationIndexPath)
     }
-
+    
     
     // must include Perform Drop With
     func tableView(_ tableView: UITableView, performDropWith coordinator: UITableViewDropCoordinator) {
@@ -205,11 +256,11 @@ extension PendingViewController: UITableViewDelegate, UITableViewDataSource, com
     // gets access to the indexPath of the cell, BECAUSE WE SET IT IN THE CELL.INDEXPATH at (cellForRowAt)
     func biggerCompleteTaskButtonPressed(at index: IndexPath) {
         
-         // index is equal to the indexPath in CustomTableViewCell.
+        // index is equal to the indexPath in CustomTableViewCell.
         
-            pendingTasks[index.row].isCompleted?.toggle()
+        pendingTasks[index.row].isCompleted?.toggle()
         saveItems()
-            self.tableView.reloadData()
+        self.tableView.reloadData()
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -217,7 +268,7 @@ extension PendingViewController: UITableViewDelegate, UITableViewDataSource, com
         
         if (segue.identifier == "addEditTaskSegue") {
             if wasCellPressed == true {
-               
+                
                 let vc = segue.destination as? AddEditViewController
                 vc?.title = "Edit Task"
                 vc?.addedTask = selectedTask
