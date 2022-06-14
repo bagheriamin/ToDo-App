@@ -69,6 +69,15 @@
 			path = CustomViews;
 			sourceTree = "<group>";
 		};
+		88575A5D28588A9100BB1C1C /* App+Scene Delegate */ = {
+			isa = PBXGroup;
+			children = (
+				88CE48E728552B1400BB30C0 /* AppDelegate.swift */,
+				88CE48E928552B1400BB30C0 /* SceneDelegate.swift */,
+			);
+			path = "App+Scene Delegate";
+			sourceTree = "<group>";
+		};
 		88CC7DEE28562DA10024B897 /* Add+Edit Task */ = {
 			isa = PBXGroup;
 			children = (
@@ -97,8 +106,7 @@
 			isa = PBXGroup;
 			children = (
 				880354DF28556DF500EA2404 /* Extensions */,
-				88CE48E728552B1400BB30C0 /* AppDelegate.swift */,
-				88CE48E928552B1400BB30C0 /* SceneDelegate.swift */,
+				88575A5D28588A9100BB1C1C /* App+Scene Delegate */,
 				88CE48ED28552B1400BB30C0 /* Main.storyboard */,
 				88CE48F228552B1500BB30C0 /* LaunchScreen.storyboard */,
 				88CE48F028552B1500BB30C0 /* Assets.xcassets */,

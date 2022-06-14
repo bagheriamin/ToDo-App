@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import BackgroundTasks
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, UIWindowSceneDelegate {
@@ -14,16 +15,21 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIWindowSceneDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        application.setMinimumBackgroundFetchInterval(UIApplication.backgroundFetchIntervalMinimum)
+//        application.setMinimumBackgroundFetchInterval(UIApplication.backgroundFetchIntervalMinimum)
         return true
     }
 
-    func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
-      if let viewController = window?.rootViewController as? PendingViewController {
-        viewController.fetchOverdueTasks()
-      }
-    }
-    
+//    func application(_ application: UIApplication, performFetchWithCompletionHandler completionHandler: @escaping (UIBackgroundFetchResult) -> Void) {
+//        if let vc = window?.rootViewController as? PendingViewController {
+//            let data = vc.fetchOverdueTasks()
+//            if data == "OVERDUE TASKS AVAILABLE" {
+//                completionHandler(UIBackgroundFetchResult.newData)
+//            } else {
+//                completionHandler(UIBackgroundFetchResult.noData)
+//            }
+//            completionHandler(UIBackgroundFetchResult.failed)
+//        }
+
     
     // MARK: UISceneSession Lifecycle
 
@@ -43,4 +49,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UIWindowSceneDelegate {
 
 
 }
+
 

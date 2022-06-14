@@ -8,17 +8,40 @@
 import UIKit
 import UserNotifications
 
+
+
 // here, we CONFORM TO THE PROTOCOL, and set this VC to be THE DELEGATE
 class PendingViewController: UIViewController {
     
-    func fetchOverdueTasks() {
-        for task in pendingTasks {
-            if task.deadline! > Date.now {
-                print("\(task) is OVERDUE")
-            } else {
-                print("\(task) is still available to complete")
-
+    var indexPath: IndexPath?
+    var timer: Timer?
+    
+    @objc func updateLabel() {
+        
+        if pendingTasks != [] {
+            for task in pendingTasks {
+                if task.deadline! < Date.now && task.isCompleted == false {
+                    overdueTasks.append(task)
+                        if let index = pendingTasks.firstIndex(of: task) {
+                            pendingTasks.remove(at: index)
+                            tableView.reloadData()
+                        }
+                    }
             }
+        }
+        var tabNumber = 0
+        
+        
+        if let tabItems = tabBarController?.tabBar.items {
+            // In this case we want to modify the badge number of the second tab:
+            if overdueTasks != [] {
+                let tabItem = tabItems[1]
+                tabItem.badgeValue = ""
+            } else {
+                let tabItem = tabItems[1]
+                tabItem.badgeValue = nil
+            }
+            
         }
     }
     
@@ -36,6 +59,7 @@ class PendingViewController: UIViewController {
     }
     //
     func createAndTriggerNotification(time: Int, task: Task) {
+        guard let deadline = task.deadline else { return }
         if task.deadline! > Date.now {
             print("Iterating through the array")
             let notificationContent = UNMutableNotificationContent()
@@ -51,7 +75,7 @@ class PendingViewController: UIViewController {
             let request = UNNotificationRequest(identifier: "tenMinutesBeforetaskEndsUN", content: notificationContent, trigger: trigger)
             UNUserNotificationCenter.current().add(request) { error in
                 if let error = error {
-                    //handle error
+                    print("Error: ", error.localizedDescription)
                 } else {
                     print("notification set up successfully for \(task)")
                 }
@@ -81,12 +105,22 @@ class PendingViewController: UIViewController {
         }
     }
     
+    func getOverdueItems() {
+        guard
+            let data = UserDefaults.standard.data(forKey: "savedOverdueTasks"), let savedItems = try? JSONDecoder().decode([Task].self, from: data)
+        else { return }
+        
+        overdueTasks = savedItems
+    }
     
     override func viewDidLoad() {
+        getOverdueItems()
         let center = UNUserNotificationCenter.current()
         center.requestAuthorization(options:  [.alert, .sound]) { (granted, error) in
         }
-
+        
+        timer = Timer.scheduledTimer(timeInterval: 0.01, target: self, selector: (#selector(updateLabel)), userInfo: nil, repeats: true)
+        
         getItems()
         super.viewDidLoad()
         print("view Did load")
@@ -233,15 +267,21 @@ extension PendingViewController: UITableViewDelegate, UITableViewDataSource, com
         let cell = tableView.dequeueReusableCell(withIdentifier: "pendingTaskCell", for: indexPath) as! CustomTableViewCell
         cell.taskTitleLabel.text = pendingTasks[indexPath.row].title
         
-        let format = pendingTasks[indexPath.row].deadline?.getFormattedDate(format: "MMM d, h:mm a")
-        
-        if pendingTasks[indexPath.row].isCompleted == true {
-            cell.completeTaskButton.alpha = 1
+        if pendingTasks[indexPath.row].isCompleted ?? false {
+            cell.completeTaskButton.isEnabled = true
+            cell.completeTaskButton.isHidden = false
             cell.completedTaskImageBackground.isHidden = false
-        } else if pendingTasks[indexPath.row].isCompleted == false {
+            cell.completeTaskButton.alpha = 1
+        } else {
+            cell.completeTaskButton.isEnabled = true
             cell.completeTaskButton.alpha = 0
             cell.completedTaskImageBackground.isHidden = true
+            cell.uncompletedTaskImage.isHidden = false
         }
+        
+        let format = pendingTasks[indexPath.row].deadline?.getFormattedDate(format: "MMM d, h:mm a")
+        
+        
         // here, we can now set this vc to be the delegate of the boss
         cell.delegate = self
         cell.indexPath = indexPath // setting the index path to where it get's created, and it gets set in the CELL! now we have access to it all over the project

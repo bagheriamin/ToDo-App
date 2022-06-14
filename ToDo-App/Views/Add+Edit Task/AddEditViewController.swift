@@ -24,15 +24,7 @@ class AddEditViewController: UIViewController, UITextViewDelegate {
     var isCompleted: Bool = false
     var addedTask = Task()
     
-    func setTask() {
-        
-        addedTask.title = taskNameTextField.text
-        addedTask.desc = descriptionTextView.text
-        addedTask.isCompleted = isCompleted
-        addedTask.deadline = dueDatePicker.date
-        enableOrDisableSaveButton()
-        
-    }
+    
     
     
     
@@ -45,8 +37,11 @@ class AddEditViewController: UIViewController, UITextViewDelegate {
     
     
     @IBAction func editingChangedTextField(_ sender: Any) {
+        print("writing...")
         taskNameLabel.text = taskNameTextField.text
         addedTask.title = taskNameTextField.text
+        print(addedTask.title)
+        print(addedTask.deadline)
         enableOrDisableSaveButton()
     }
     
@@ -83,7 +78,11 @@ class AddEditViewController: UIViewController, UITextViewDelegate {
     }
     
     override func viewDidLoad() {
-        dueDatePicker.minimumDate = .now
+        enableOrDisableSaveButton()
+        if addedTask.deadline == nil {
+            dueDatePicker.minimumDate = .now
+        }
+        
         super.viewDidLoad()
         saveButton.isEnabled = false
         setUpViews()
@@ -111,6 +110,8 @@ class AddEditViewController: UIViewController, UITextViewDelegate {
             print(addedTask.isCompleted)
             
         }
+        
+       
     }
     
     
@@ -122,12 +123,38 @@ class AddEditViewController: UIViewController, UITextViewDelegate {
         
     }
     
+    @IBOutlet var descriptionLabel: UILabel!
+    @IBOutlet var dueDateLabel: UILabel!
     func enableOrDisableSaveButton() {
-        if addedTask.title != nil && addedTask.deadline != nil {
-            saveButton.isEnabled = true
-        } else {
-            saveButton.isEnabled = false
+        if let deadline = addedTask.deadline {
+            if deadline < Date.now {
+                saveButton.isEnabled = false
+                dueDatePicker.isEnabled = false
+                taskNameTextField.isEnabled = false
+                descriptionTextView.isEditable = false
+                isCompletedButton.isEnabled = false
+                isCompletedButton.alpha = 0.3
+                dueDatePicker.alpha = 0.3
+                descriptionTextView.alpha = 0.3
+                taskNameTextField.alpha = 0.3
+                taskNameLabel.alpha = 0.3
+                descriptionLabel.alpha = 0.3
+                dueDateLabel.alpha = 0.3
+                isCompletedButton.tintColor = .gray
+            }
         }
+        
+        if let deadline = addedTask.deadline {
+            if deadline > Date.now {
+                if addedTask.title != nil && addedTask.deadline != nil {
+                    saveButton.isEnabled = true
+                } else if addedTask.title == nil && addedTask.deadline == nil {
+                    saveButton.isEnabled = false
+                }
+            }
+            
+        }
+        
     }
     
     @IBAction func saveButtonPressed(_ sender: Any) {
@@ -140,6 +167,7 @@ class AddEditViewController: UIViewController, UITextViewDelegate {
     @IBAction func dateChanged(_ sender: Any) {
         print("DATE CHANGED")
         addedTask.deadline = dueDatePicker.date
+        print(addedTask.title)
         print(addedTask.deadline)
         enableOrDisableSaveButton()
     }
